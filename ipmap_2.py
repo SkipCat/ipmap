@@ -6,21 +6,11 @@ async def handle(request):
     print('nmap -sV ' + ip)
     result = ''
 
-    if '-' in ip and ip != 'favicon.io':
-        # baseIp = ip[:-4]
-        # if is_number(baseIp.replace('.', '')):
-        #     listIp = (ip[-3:]).split('-')
-        #     scan = []
-        #     for singleIp in range(int(listIp[0]), int(listIp[1]) + 1):
-        #         # result = await scan_ip(baseIp + "." + str(singleIp))
-        #         # scan.append(result)
-        #         print(baseIp + '.' + str(singleIp), listIp)
-
+    if '-' in ip:
         base_ip, start_ip, last_ip = ipToScan(ip)
-        print(base_ip, start_ip, last_ip)        
-
+        
         for i in range(int(start_ip), int(last_ip) + 1):
-            print(str(base_ip) + '.' + str(i))    
+            print(str(base_ip) + '.' + str(i))
             result += await scan_ip(str(base_ip) + '.' + str(i)) + "\n\n"
             print(result)
 
@@ -52,14 +42,6 @@ def ipToScan(ip):
     last_ip = all_ip[1] # get ip after '-' in url
 
     return base_ip, start_ip, last_ip
-
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
 
 
 def main():
